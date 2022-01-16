@@ -3,11 +3,7 @@ from __future__ import annotations
 
 import logging
 
-from homeassistant.components.sensor import (
-    SensorDeviceClass,
-    SensorEntity,
-    SensorStateClass,
-)
+from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import ATTR_ATTRIBUTION
 from homeassistant.core import HomeAssistant
@@ -60,7 +56,7 @@ class CollectionSensor(SensorEntity):
             if collection_type is not TYPE_RECYCLING
             else f"{collection_type.title()} Collection"
         )
-        self._id = f"cardiffwaste-{collection_type}"
+        self._id = f"cardiffwaste-{collection_data.client.uprn}-{collection_type}"
 
         if collection_type is TYPE_FOOD:
             self._collection = collection_data.collections.food
