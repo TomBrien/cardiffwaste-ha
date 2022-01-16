@@ -1,0 +1,7 @@
+{
+    "name": "Cardiff Waste",
+    "domains": [
+        "sensor"
+    ],
+    "homeassistant": "2021.11.0"
+}

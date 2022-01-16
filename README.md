@@ -10,8 +10,8 @@ Right now this integration is essentially at an alpha/pre-alpha stage. It works 
 
 ### HACS
 
-1. Add this repository as a custom repository in HACS
-2. Search for and install the "Cardiff Waste" integration
+1. Add this repository as a [custom repository](https://hacs.xyz/docs/faq/custom_repositories) in HACS
+2. Search for and download the "Cardiff Waste" integration
 3. Restart your Home Assistant
 
 ### Manual 

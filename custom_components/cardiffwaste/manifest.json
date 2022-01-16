@@ -2,7 +2,7 @@
   "domain": "cardiffwaste",
   "name": "Cardiff Waste",
   "config_flow": true,
-  "documentation": "https://www.home-assistant.io/integrations/cardiffwaste",
+  "documentation": "https://www.github.com/tombrien/cardiffwaste-ha",
   "requirements": [
     "cardiffwaste==0.1.0b4"
   ],
