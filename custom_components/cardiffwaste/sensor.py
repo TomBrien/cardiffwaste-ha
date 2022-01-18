@@ -58,17 +58,9 @@ class CollectionSensor(SensorEntity):
         )
         self._id = f"cardiffwaste-{collection_data.client.uprn}-{collection_type}"
 
-        if collection_type is TYPE_FOOD:
-            self._collection = collection_data.collections.food
-        elif collection_type is TYPE_GARDEN:
-            self._collection = collection_data.collections.garden
-        elif collection_type is TYPE_GENERAL:
-            self._collection = collection_data.collections.general
-        elif collection_type is TYPE_RECYCLING:
-            self._collection = collection_data.collections.recycling
-        self._state = (
-            self._collection.collection_date if self._collection.loaded else None
-        )
+        self._collection = self._data.collections.get(collection_type, {})
+
+        self._state = self._collection.get("date")
 
     @property
     def name(self):
@@ -94,22 +86,12 @@ class CollectionSensor(SensorEntity):
     def extra_state_attributes(self):
         """Return the state attributes of the sensor."""
         attrs = {ATTR_ATTRIBUTION: ATTRIBUTION}
-        if self._collection.loaded:
-            attrs[ATTR_COLLECTION_TYPE] = self._collection.collection_type
-            attrs[ATTR_IMAGE_URL] = self._collection.image
-        return attrs
+        if self._collection:
+            attrs[ATTR_COLLECTION_TYPE] = self._collection.get("type")
+            attrs[ATTR_IMAGE_URL] = self._collection.get("image")
 
     def update(self):
         """Get the latest state of the sensor."""
         self._data.update()
-        if self._type is TYPE_FOOD:
-            self._collection = self._data.collections.food
-        elif self._type is TYPE_GARDEN:
-            self._collection = self._data.collections.garden
-        elif self._type is TYPE_GENERAL:
-            self._collection = self._data.collections.general
-        elif self._type is TYPE_RECYCLING:
-            self._collection = self._data.collections.recycling
-        self._state = (
-            self._collection.collection_date if self._collection.loaded else None
-        )
+
+        self._collection = self._data.collections.get(self._type, {})
