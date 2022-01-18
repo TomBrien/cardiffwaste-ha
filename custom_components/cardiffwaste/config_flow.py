@@ -4,6 +4,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
+from cardiffwaste import WasteCollections
 import voluptuous as vol
 
 from homeassistant import config_entries
@@ -18,25 +19,13 @@ _LOGGER = logging.getLogger(__name__)
 STEP_USER_DATA_SCHEMA = vol.Schema({vol.Required(CONF_UPRN): str})
 
 
-class WasteHub:
-    """Hub to hold waste collection data."""
-
-    def __init__(self, uprn: str) -> None:
-        """Initialize."""
-        self.uprn = uprn
-
-    async def check_uprn(self) -> bool:
-        """Test if we can authenticate with the host."""
-        return True
-
-
 async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str, Any]:
     """Check we can get data for the property."""
 
-    hub = WasteHub(data[CONF_UPRN])
+    client = await hass.async_add_executor_job(WasteCollections, data[CONF_UPRN])
 
-    if not await hub.check_uprn():
-        raise CannotConnect
+    if not client.check_valid_uprn():
+        raise InvalidUPRN
 
     # Return info that you want to store in the config entry.
     return {"title": data[CONF_UPRN]}
@@ -62,10 +51,8 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         try:
             info = await validate_input(self.hass, user_input)
-        except CannotConnect:
-            errors["base"] = "cannot_connect"
-        except InvalidAuth:
-            errors["base"] = "invalid_auth"
+        except InvalidUPRN:
+            errors["base"] = "invalid_uprn"
         except Exception:  # pylint: disable=broad-except
             _LOGGER.exception("Unexpected exception")
             errors["base"] = "unknown"
@@ -77,8 +64,8 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(HomeAssistantError):
-    """Error to indicate we cannot connect."""
+class InvalidUPRN(HomeAssistantError):
+    """Error to indicate the address is not recoginised."""
 
 
 class InvalidAuth(HomeAssistantError):
