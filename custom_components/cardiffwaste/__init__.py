@@ -3,13 +3,12 @@ from __future__ import annotations
 
 from datetime import timedelta
 
-from cardiffwaste import NextCollections, WasteCollections
-
-from homeassistant.components.coinbase import MIN_TIME_BETWEEN_UPDATES
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.util import Throttle
+
+from cardiffwaste import WasteCollections
 
 from .const import CONF_UPRN, DOMAIN
 
@@ -55,10 +54,10 @@ class CardiffWasteData:
         """Init the waste data object."""
 
         self.client = client
-        self.collections: NextCollections | None = None
+        self.collections: dict | None = None
 
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):
         """Get the latest data from Cardiff Waste."""
 
-        self.collections = self.client.get_collections()
+        self.collections = self.client.get_next_collections()
