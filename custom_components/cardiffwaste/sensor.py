@@ -83,12 +83,13 @@ class CollectionSensor(SensorEntity):
         return SensorDeviceClass.DATE
 
     @property
-    def extra_state_attributes(self):
+    def extra_state_attributes(self) -> dict[str, str]:
         """Return the state attributes of the sensor."""
         attrs = {ATTR_ATTRIBUTION: ATTRIBUTION}
         if self._collection:
             attrs[ATTR_COLLECTION_TYPE] = self._collection.get("type")
             attrs[ATTR_IMAGE_URL] = self._collection.get("image")
+        return attrs
 
     def update(self):
         """Get the latest state of the sensor."""
