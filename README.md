@@ -4,7 +4,7 @@ A, currently very, basic integration to provide waste collection date sensors fo
 
 ## Please Note
 
-Right now this integration is essentially at an alpha/pre-alpha stage. It works for me but right now anyone else's mileage may vary.
+Right now this integration is in early-stage development still. It works for me and contains some basic address validation so should be robust but right now anyone else's mileage may vary.
 
 ## Installation
 
