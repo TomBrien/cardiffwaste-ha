@@ -7,7 +7,6 @@ from typing import Any
 from cardiffwaste import WasteCollections
 import voluptuous as vol
 
-from custom_components.cardiffwaste.helpers import redact_uprn
 from homeassistant import config_entries
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.data_entry_flow import FlowResult
@@ -23,6 +22,7 @@ from .const import (
     TYPE_HYGIENE,
     TYPE_RECYCLING,
 )
+from .helpers import redact_uprn
 
 _LOGGER = logging.getLogger(__name__)
 

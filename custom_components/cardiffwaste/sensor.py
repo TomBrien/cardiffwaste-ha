@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import logging
 
-from custom_components.cardiffwaste.helpers import redact_uprn
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import ATTR_ATTRIBUTION
@@ -21,6 +20,7 @@ from .const import (
     DOMAIN,
     TYPE_RECYCLING,
 )
+from .helpers import redact_uprn
 
 _LOGGER = logging.getLogger(__name__)
 

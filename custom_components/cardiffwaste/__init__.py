@@ -6,7 +6,6 @@ import logging
 
 from cardiffwaste import WasteCollections
 
-from custom_components.cardiffwaste.helpers import redact_uprn
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
@@ -15,6 +14,7 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from homeassistant.util import Throttle
 
 from .const import CONF_UPRN, DOMAIN
+from .helpers import redact_uprn
 
 _LOGGER = logging.getLogger(__name__)
 
