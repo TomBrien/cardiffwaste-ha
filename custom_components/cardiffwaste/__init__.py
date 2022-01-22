@@ -11,6 +11,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from homeassistant.util import Throttle
 
 from .const import CONF_UPRN, DOMAIN
@@ -28,7 +29,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     _LOGGER.debug("Setting up entry for uprn: %s", redact_uprn(entry.data[CONF_UPRN]))
 
-    instance = await hass.async_add_executor_job(create_and_update_instance, entry)
+    instance = await create_and_update_instance(hass, entry)
 
     entry.async_on_unload(entry.add_update_listener(update_listener))
 
@@ -49,17 +50,18 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     return unload_ok
 
 
-def create_and_update_instance(entry: ConfigEntry) -> CardiffWasteData:
+async def create_and_update_instance(hass, entry: ConfigEntry) -> CardiffWasteData:
     """Create and update a Cardiff Waste Data instance."""
     _LOGGER.debug(
         "Registering instance for uprn: %s", redact_uprn(entry.data[CONF_UPRN])
     )
-    client = WasteCollections(entry.data[CONF_UPRN])
-    instance = CardiffWasteData(client)
+    client = await hass.async_add_executor_job(WasteCollections, entry.data[CONF_UPRN])
+    instance = CardiffWasteData(hass, client)
     _LOGGER.debug(
         "Requesting instance update for uprn: %s", redact_uprn(entry.data[CONF_UPRN])
     )
-    instance.update()
+    await instance.async_config_entry_first_refresh()
+
     return instance
 
 
@@ -87,19 +89,22 @@ async def update_listener(hass, entry):
             registry.async_remove(entity.entity_id)
 
 
-class CardiffWasteData:
+class CardiffWasteData(DataUpdateCoordinator):
     """Get the latest data and update the states."""
 
-    def __init__(self, client: WasteCollections) -> None:
+    def __init__(self, hass, client: WasteCollections) -> None:
         """Init the waste data object."""
 
+        self._hass = hass
         self.client = client
-        self.collections: dict | None = None
 
-    @Throttle(MIN_TIME_BETWEEN_UPDATES)
-    def update(self):
+        super().__init__(
+            hass, _LOGGER, name=DOMAIN, update_interval=MIN_TIME_BETWEEN_UPDATES
+        )
+
+    async def _async_update_data(self):
         """Get the latest data from Cardiff Waste."""
         _LOGGER.debug(
             "Allowing instance update for uprn: %s", redact_uprn(self.client.uprn)
         )
-        self.collections = self.client.get_next_collections()
+        return await self._hass.async_add_executor_job(self.client.get_next_collections)
