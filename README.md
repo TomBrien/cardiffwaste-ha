@@ -2,10 +2,6 @@
 
 A, currently very, basic integration to provide waste collection date sensors for those whose waste is collected by Cardiff Council.
 
-## Please Note
-
-Right now this integration is in early-stage development still. It works for me and contains some basic address validation so should be robust but right now anyone else's mileage may vary.
-
 ## Installation
 
 ### HACS
