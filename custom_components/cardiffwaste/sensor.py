@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import logging
 
+from custom_components.cardiffwaste.helpers import redact_uprn
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import ATTR_ATTRIBUTION
@@ -47,6 +48,11 @@ class CollectionSensor(SensorEntity):
 
     def __init__(self, collection_data, collection_type):
         """Initialize the sensor."""
+        _LOGGER.debug(
+            "Creating %s collection sensor for uprn: %s",
+            collection_type,
+            redact_uprn(collection_data.client.uprn),
+        )
         self._data = collection_data
         self._type = collection_type
         self._name = (
@@ -89,6 +95,13 @@ class CollectionSensor(SensorEntity):
 
     def update(self):
         """Get the latest state of the sensor."""
+
+        _LOGGER.debug(
+            "Updating %s collection sensor for uprn: %s",
+            self._type,
+            redact_uprn(self._data.client.uprn),
+        )
+
         self._data.update()
 
         self._collection = self._data.collections.get(self._type, {})

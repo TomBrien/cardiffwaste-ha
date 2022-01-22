@@ -4,7 +4,7 @@
   "config_flow": true,
   "documentation": "https://www.github.com/tombrien/cardiffwaste-ha",
   "requirements": [
-    "cardiffwaste==0.1.0b7"
+    "cardiffwaste==0.1.0"
   ],
   "ssdp": [],
   "zeroconf": [],
