@@ -65,7 +65,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
 
 class InvalidUPRN(HomeAssistantError):
-    """Error to indicate the address is not recoginised."""
+    """Error to indicate the address is not recognised."""
 
 
 class InvalidAuth(HomeAssistantError):

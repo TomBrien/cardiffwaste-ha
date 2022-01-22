@@ -3,12 +3,12 @@ from __future__ import annotations
 
 from datetime import timedelta
 
+from cardiffwaste import WasteCollections
+
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.util import Throttle
-
-from cardiffwaste import WasteCollections
 
 from .const import CONF_UPRN, DOMAIN
 
