@@ -17,10 +17,6 @@ from .const import (
     ATTR_IMAGE_URL,
     DEFAULT_OPTIONS,
     DOMAIN,
-    TYPE_FOOD,
-    TYPE_GARDEN,
-    TYPE_GENERAL,
-    TYPE_HYGIENE,
     TYPE_RECYCLING,
 )
 
