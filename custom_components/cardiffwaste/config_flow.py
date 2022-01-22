@@ -14,10 +14,12 @@ from homeassistant.exceptions import HomeAssistantError
 
 from .const import (
     CONF_UPRN,
+    DEFAULT_OPTIONS,
     DOMAIN,
     TYPE_FOOD,
     TYPE_GARDEN,
     TYPE_GENERAL,
+    TYPE_HYGIENE,
     TYPE_RECYCLING,
 )
 
@@ -64,7 +66,9 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             _LOGGER.exception("Unexpected exception")
             errors["base"] = "unknown"
         else:
-            return self.async_create_entry(title=info["title"], data=user_input)
+            return self.async_create_entry(
+                title=info["title"], data=user_input, options=DEFAULT_OPTIONS
+            )
 
         return self.async_show_form(
             step_id="user", data_schema=STEP_USER_DATA_SCHEMA, errors=errors
@@ -92,6 +96,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         default_food = self.config_entry.options.get(TYPE_FOOD, True)
         default_garden = self.config_entry.options.get(TYPE_GARDEN, True)
         default_general = self.config_entry.options.get(TYPE_GENERAL, True)
+        default_hygiene = self.config_entry.options.get(TYPE_HYGIENE, False)
         default_recycling = self.config_entry.options.get(TYPE_RECYCLING, True)
 
         if user_input is not None:
@@ -113,6 +118,10 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                     vol.Optional(
                         TYPE_GENERAL,
                         default=default_general,
+                    ): bool,
+                    vol.Optional(
+                        TYPE_HYGIENE,
+                        default=default_hygiene,
                     ): bool,
                     vol.Optional(
                         TYPE_RECYCLING,
