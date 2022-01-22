@@ -3,14 +3,12 @@ from __future__ import annotations
 
 import logging
 
-from custom_components.cardiffwaste.helpers import redact_uprn
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import ATTR_ATTRIBUTION
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.device_registry import DeviceEntryType
-from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import (
     ALL_COLLECTIONS,
@@ -20,6 +18,7 @@ from .const import (
     DOMAIN,
     TYPE_RECYCLING,
 )
+from .helpers import redact_uprn
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -43,26 +42,27 @@ async def async_setup_entry(
     async_add_entities(entities)
 
 
-class CollectionSensor(SensorEntity):
+class CollectionSensor(CoordinatorEntity, SensorEntity):
     """Representation of a Cardiff Waste sensor."""
 
-    def __init__(self, collection_data, collection_type):
+    def __init__(self, coordinator, collection_type):
         """Initialize the sensor."""
+        super().__init__(coordinator)
         _LOGGER.debug(
             "Creating %s collection sensor for uprn: %s",
             collection_type,
-            redact_uprn(collection_data.client.uprn),
+            redact_uprn(coordinator.client.uprn),
         )
-        self._data = collection_data
+        self._data = coordinator
         self._type = collection_type
         self._name = (
             f"{collection_type.title()} Waste Collection"
             if collection_type is not TYPE_RECYCLING
             else f"{collection_type.title()} Collection"
         )
-        self._id = f"cardiffwaste-{collection_data.client.uprn}-{collection_type}"
+        self._id = f"cardiffwaste-{coordinator.client.uprn}-{collection_type}"
 
-        self._collection = self._data.collections.get(collection_type, {})
+        self._collection = self.coordinator.data.get(self._type, {})
 
     @property
     def name(self):
@@ -77,7 +77,7 @@ class CollectionSensor(SensorEntity):
     @property
     def native_value(self):
         """Return the state of the sensor."""
-        return self._collection.get("date")
+        return self.coordinator.data.get(self._type, {}).get("date")
 
     @property
     def device_class(self) -> SensorDeviceClass | str | None:
@@ -92,16 +92,3 @@ class CollectionSensor(SensorEntity):
             attrs[ATTR_COLLECTION_TYPE] = self._collection.get("type")
             attrs[ATTR_IMAGE_URL] = self._collection.get("image")
         return attrs
-
-    def update(self):
-        """Get the latest state of the sensor."""
-
-        _LOGGER.debug(
-            "Updating %s collection sensor for uprn: %s",
-            self._type,
-            redact_uprn(self._data.client.uprn),
-        )
-
-        self._data.update()
-
-        self._collection = self._data.collections.get(self._type, {})
