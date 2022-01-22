@@ -14,5 +14,18 @@
     "abort": {
       "already_configured": "[%key:common::config_flow::abort::already_configured_device%]"
     }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "description": "Select which sensors to create",
+        "data": {
+          "garden": "Next garden waste collection",
+          "general": "Next general waste collection",
+          "food": "Next food waste collection",
+          "recycling": "Next recycling collection"
+        }
+      }
+    }
   }
 }
