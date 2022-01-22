@@ -2,10 +2,6 @@
 
 A, currently very, basic integration to provide waste collection date sensors for those whose waste is collected by Cardiff Council.
 
-## Please Note
-
-Right now this integration is in early-stage development still. It works for me and contains some basic address validation so should be robust but right now anyone else's mileage may vary.
-
 ## Installation
 
 ### HACS
@@ -33,5 +29,5 @@ For ease you can skip the first two steps using this my.home-assistant link:
 
 ### Configuration
 
-By default, sensors will be created for the next food waste, garden waste, general waste and recycling collections. You can removed or reenable any of these by clicking on the "Configure" button in the Cardiff Waste panel within Devices & Services form the Configuration menu.
+By default, sensors will be created for the next food waste, garden waste, general waste and recycling collections, by default a sensor is not created for the next hygiene waste collection as not all properties receive these. You can removed or reenable any of these by clicking on the "Configure" button in the Cardiff Waste panel within Devices & Services form the Configuration menu.
 

@@ -12,20 +12,21 @@ from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import (
+    ALL_COLLECTIONS,
     ATTR_COLLECTION_TYPE,
     ATTR_IMAGE_URL,
+    DEFAULT_OPTIONS,
     DOMAIN,
     TYPE_FOOD,
     TYPE_GARDEN,
     TYPE_GENERAL,
+    TYPE_HYGIENE,
     TYPE_RECYCLING,
 )
 
 _LOGGER = logging.getLogger(__name__)
 
 ATTRIBUTION = "Data provided by Cardiff Council"
-
-COLLECTIONS = [TYPE_FOOD, TYPE_GARDEN, TYPE_GENERAL, TYPE_RECYCLING]
 
 
 async def async_setup_entry(
@@ -38,8 +39,8 @@ async def async_setup_entry(
 
     entities: list[SensorEntity] = []
 
-    for collection in COLLECTIONS:
-        if config_entry.options.get(collection, True):
+    for collection in ALL_COLLECTIONS:
+        if config_entry.options.get(collection, DEFAULT_OPTIONS[collection]):
             entities.append(CollectionSensor(instance, collection))
 
     async_add_entities(entities)
