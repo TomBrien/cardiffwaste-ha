@@ -39,7 +39,8 @@ async def async_setup_entry(
     entities: list[SensorEntity] = []
 
     for collection in COLLECTIONS:
-        entities.append(CollectionSensor(instance, collection))
+        if config_entry.options.get(collection, True):
+            entities.append(CollectionSensor(instance, collection))
 
     async_add_entities(entities)
 

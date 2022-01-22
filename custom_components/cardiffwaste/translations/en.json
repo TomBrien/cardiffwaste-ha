@@ -14,5 +14,18 @@
                 }
             }
         }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "description": "Adjust Cardiff Waste Options",
+                "data": {
+                    "garden": "Next garden waste collection",
+                    "general": "Next general waste collection",
+                    "food": "Next food waste collection",
+                    "recycling": "Next recycling collection"
+                }
+            }
+        }
     }
 }
