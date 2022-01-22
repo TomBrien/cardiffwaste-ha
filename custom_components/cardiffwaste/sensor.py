@@ -17,6 +17,13 @@ from .const import (
     ATTR_IMAGE_URL,
     DEFAULT_OPTIONS,
     DOMAIN,
+<<<<<<< HEAD
+=======
+    TYPE_FOOD,
+    TYPE_GARDEN,
+    TYPE_GENERAL,
+    TYPE_HYGIENE,
+>>>>>>> Support hygiene waste collections (#6)
     TYPE_RECYCLING,
 )
 
