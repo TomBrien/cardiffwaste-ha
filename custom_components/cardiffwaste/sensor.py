@@ -60,8 +60,6 @@ class CollectionSensor(SensorEntity):
 
         self._collection = self._data.collections.get(collection_type, {})
 
-        self._state = self._collection.get("date")
-
     @property
     def name(self):
         """Return the name of the sensor."""
@@ -75,7 +73,7 @@ class CollectionSensor(SensorEntity):
     @property
     def native_value(self):
         """Return the state of the sensor."""
-        return self._state
+        return self._collection.get("date")
 
     @property
     def device_class(self) -> SensorDeviceClass | str | None:
