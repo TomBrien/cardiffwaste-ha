@@ -7,6 +7,7 @@ from typing import Any
 from cardiffwaste import WasteCollections
 import voluptuous as vol
 
+from custom_components.cardiffwaste.helpers import redact_uprn
 from homeassistant import config_entries
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.data_entry_flow import FlowResult
@@ -30,6 +31,8 @@ STEP_USER_DATA_SCHEMA = vol.Schema({vol.Required(CONF_UPRN): str})
 
 async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str, Any]:
     """Check we can get data for the property."""
+
+    _LOGGER.debug("Validating uprn: %s", redact_uprn(data[CONF_UPRN]))
 
     client = await hass.async_add_executor_job(WasteCollections, data[CONF_UPRN])
 
@@ -61,6 +64,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         try:
             info = await validate_input(self.hass, user_input)
         except InvalidUPRN:
+            _LOGGER.debug("uprn: %s is invalid", redact_uprn(user_input[CONF_UPRN]))
             errors["base"] = "invalid_uprn"
         except Exception:  # pylint: disable=broad-except
             _LOGGER.exception("Unexpected exception")
