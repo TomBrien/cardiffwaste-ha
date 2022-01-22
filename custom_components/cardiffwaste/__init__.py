@@ -11,7 +11,6 @@ from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
-from homeassistant.util import Throttle
 
 from .const import CONF_UPRN, DOMAIN
 from .helpers import redact_uprn
