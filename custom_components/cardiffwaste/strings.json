@@ -3,12 +3,19 @@
     "step": {
       "user": {
         "data": {
-          "uprn": "UPRN"
+          "post_code": "Post Code"
+        }
+      },
+      "address_picker": {
+        "data": {
+          "address_picker": "Select address"
         }
       }
     },
     "error": {
       "invalid_uprn": "UPRN provided does not seem valid or has no collections scheduled.",
+      "no_match": "Cannot find any addresses matching that post code.",
+      "timeout": "Unable to search address due to a server timeout, please try again.",
       "unknown": "[%key:common::config_flow::error::unknown%]"
     },
     "abort": {

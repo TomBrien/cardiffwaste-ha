@@ -5,6 +5,8 @@ DOMAIN = "cardiffwaste"
 ATTR_COLLECTION_TYPE = "collection_type"
 ATTR_IMAGE_URL = "image_URL"
 
+CONF_ADDRESS_PICKER = "address_picker"
+CONF_POST_CODE = "post_code"
 CONF_UPRN = "uprn"
 
 TYPE_FOOD = "food"
