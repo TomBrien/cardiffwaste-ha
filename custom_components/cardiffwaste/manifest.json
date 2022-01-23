@@ -3,6 +3,7 @@
   "name": "Cardiff Waste",
   "config_flow": true,
   "documentation": "https://www.github.com/tombrien/cardiffwaste-ha",
+  "issue_tracker": "https://www.github.com/tombrien/cardiffwaste-ha/issues",
   "requirements": [
     "cardiffwaste==0.2.1"
   ],
