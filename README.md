@@ -25,7 +25,8 @@ For ease you can skip the first two steps using this my.home-assistant link:
 
 1. Go to Devices & Services in Configuration
 2. Click Add Integration and select Cardiff Waste
-3. When prompted, enter the unique property reference number (UPRN) of your property. You can find this using [this site](https://www.findmyaddress.co.uk/search)
+3. When prompted add your properties post code and press submit
+4. After the search completes, select your address from the drop down and press submit
 
 ### Configuration
 
