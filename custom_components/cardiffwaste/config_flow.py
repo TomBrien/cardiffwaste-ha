@@ -30,7 +30,7 @@ from .helpers import redact_uprn
 
 _LOGGER = logging.getLogger(__name__)
 
-STEP_POST_CODE_DATA_SCHEMA = vol.Schema({vol.Required(CONF_POST_CODE): str})
+STEP_USER_DATA_SCHEMA = vol.Schema({vol.Required(CONF_POST_CODE): str})
 
 
 async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str, Any]:
@@ -57,7 +57,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Handle the initial step."""
         if user_input is None:
             return self.async_show_form(
-                step_id="user", data_schema=STEP_POST_CODE_DATA_SCHEMA
+                step_id="user", data_schema=STEP_USER_DATA_SCHEMA
             )
 
         errors = {}
@@ -79,7 +79,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             return await self.async_step_address_picker()
 
         return self.async_show_form(
-            step_id="user", data_schema=STEP_POST_CODE_DATA_SCHEMA, errors=errors
+            step_id="user", data_schema=STEP_USER_DATA_SCHEMA, errors=errors
         )
 
     async def async_step_address_picker(
@@ -87,13 +87,13 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     ) -> FlowResult:
         """Handle picking from the results."""
 
-        STEP_ADDRESS_PICKER_SCHEMA = vol.Schema(
+        step_address_picker_schema = vol.Schema(
             {vol.Required(CONF_ADDRESS_PICKER): vol.In(self.matches)},
         )
 
         if user_input is None:
             return self.async_show_form(
-                step_id="address_picker", data_schema=STEP_ADDRESS_PICKER_SCHEMA
+                step_id="address_picker", data_schema=step_address_picker_schema
             )
 
         errors = {}
@@ -123,7 +123,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         return self.async_show_form(
             step_id="address_picker",
-            data_schema=STEP_ADDRESS_PICKER_SCHEMA,
+            data_schema=step_address_picker_schema,
             errors=errors,
         )
 
