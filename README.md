@@ -8,10 +8,9 @@ A, currently very, basic integration to provide waste collection date sensors fo
 
 ### HACS
 
-1. Add this repository as a [custom repository](https://hacs.xyz/docs/faq/custom_repositories) in HACS
-2. Search for and download the "Cardiff Waste" integration
-3. Restart your Home Assistant
-4. Follow the [setup](#setup) instructions below
+1. Search for and download the "Cardiff Waste" integration
+2. Restart your Home Assistant
+3. Follow the [setup](#setup) instructions below
 
 ### Manual 
 
