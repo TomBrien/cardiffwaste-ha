@@ -1,3 +1,5 @@
+[![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
+
 # Cardiff Waste: Home Assistant Integration
 
 A, currently very, basic integration to provide waste collection date sensors for those whose waste is collected by Cardiff Council.
