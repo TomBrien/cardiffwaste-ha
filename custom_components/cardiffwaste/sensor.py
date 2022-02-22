@@ -62,8 +62,6 @@ class CollectionSensor(CoordinatorEntity, SensorEntity):
         )
         self._id = f"cardiffwaste-{coordinator.client.uprn}-{collection_type}"
 
-        self._collection = self.coordinator.data.get(self._type, {})
-
     @property
     def name(self):
         """Return the name of the sensor."""
@@ -88,7 +86,10 @@ class CollectionSensor(CoordinatorEntity, SensorEntity):
     def extra_state_attributes(self) -> dict[str, str]:
         """Return the state attributes of the sensor."""
         attrs = {ATTR_ATTRIBUTION: ATTRIBUTION}
-        if self._collection:
-            attrs[ATTR_COLLECTION_TYPE] = self._collection.get("type")
-            attrs[ATTR_IMAGE_URL] = self._collection.get("image")
+
+        _collection = self.coordinator.data.get(self._type, {})
+
+        if _collection:
+            attrs[ATTR_COLLECTION_TYPE] = _collection.get("type")
+            attrs[ATTR_IMAGE_URL] = _collection.get("image")
         return attrs
