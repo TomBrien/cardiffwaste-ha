@@ -90,6 +90,11 @@ class CollectionSensor(CoordinatorEntity, SensorEntity):
         _collection = self.coordinator.data.get(self._type, {})
 
         if _collection:
+            _LOGGER.debug(
+                "Updated attribtues for %s sensor with data from %s",
+                self._type,
+                _collection.get("last_update_utc").strftime("%Y-%m-%d %H:%M:%S"),
+            )
             attrs[ATTR_COLLECTION_TYPE] = _collection.get("type")
             attrs[ATTR_IMAGE_URL] = _collection.get("image")
         return attrs
