@@ -4,13 +4,14 @@ from __future__ import annotations
 from datetime import timedelta
 import logging
 
+from cardiffwaste import Timeout as WasteTimeout
 from cardiffwaste import WasteCollections
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import CONF_UPRN, DOMAIN
 from .helpers import redact_uprn
@@ -106,4 +107,9 @@ class CardiffWasteData(DataUpdateCoordinator):
         _LOGGER.debug(
             "Allowing instance update for uprn: %s", redact_uprn(self.client.uprn)
         )
-        return await self._hass.async_add_executor_job(self.client.get_next_collections)
+        try:
+            return await self._hass.async_add_executor_job(
+                self.client.get_next_collections
+            )
+        except WasteTimeout as err:
+            raise UpdateFailed(f"Error communicating with API: {err}")
