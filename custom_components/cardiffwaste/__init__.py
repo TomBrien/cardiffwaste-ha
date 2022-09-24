@@ -4,6 +4,8 @@ from __future__ import annotations
 from datetime import timedelta
 import logging
 
+from cardiffwaste import ConnectionError as WasteConnectionError
+from cardiffwaste import DecodeFailed as WasteDecodeFailed
 from cardiffwaste import Timeout as WasteTimeout
 from cardiffwaste import WasteCollections
 
@@ -111,5 +113,9 @@ class CardiffWasteData(DataUpdateCoordinator):
             return await self._hass.async_add_executor_job(
                 self.client.get_next_collections
             )
-        except WasteTimeout as err:
-            raise UpdateFailed(f"Error communicating with API: {err}")
+        except (WasteConnectionError, WasteDecodeFailed, WasteTimeout) as err:
+            raise UpdateFailed(f"Error communicating with API: {err}") from err
+        except Exception as err:
+            raise UpdateFailed(
+                f"Updating failed due to an unexpected error: {err}"
+            ) from err
