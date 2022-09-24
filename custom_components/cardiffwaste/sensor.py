@@ -91,7 +91,7 @@ class CollectionSensor(CoordinatorEntity, SensorEntity):
 
         if _collection:
             _LOGGER.debug(
-                "Updated attribtues for %s sensor with data from %s",
+                "Updated attributes for %s sensor with data from %s",
                 self._type,
                 _collection.get("last_update_utc").strftime("%Y-%m-%d %H:%M:%S"),
             )
