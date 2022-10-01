@@ -5,7 +5,7 @@
   "documentation": "https://www.github.com/tombrien/cardiffwaste-ha",
   "issue_tracker": "https://www.github.com/tombrien/cardiffwaste-ha/issues",
   "requirements": [
-    "cardiffwaste==0.2.4"
+    "cardiffwaste==0.2.6"
   ],
   "ssdp": [],
   "zeroconf": [],
