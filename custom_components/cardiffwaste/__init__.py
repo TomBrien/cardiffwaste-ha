@@ -114,8 +114,6 @@ class CardiffWasteData(DataUpdateCoordinator):
                 self.client.get_next_collections
             )
         except (WasteConnectionError, WasteDecodeFailed, WasteTimeout) as err:
-            raise UpdateFailed(f"Error communicating with API: {err}") from err
+            _LOGGER.warning("Failed to communicate with API: %s", err)
         except Exception as err:
-            raise UpdateFailed(
-                f"Updating failed due to an unexpected error: {err}"
-            ) from err
+            _LOGGER.warning("Experienced unexpected error while updating: %s", err)
