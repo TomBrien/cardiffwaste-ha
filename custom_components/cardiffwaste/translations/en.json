@@ -31,7 +31,8 @@
                     "general": "Next general waste collection",
                     "hygiene": "Next hygiene waste collection",
                     "food": "Next food waste collection",
-                    "recycling": "Next recycling collection"
+                    "recycling": "Next recycling collection",
+                    "christmas tree": "Next Christmas tree collection"
                 }
             }
         }

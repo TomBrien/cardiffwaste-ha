@@ -20,6 +20,7 @@ from .const import (
     CONF_UPRN,
     DEFAULT_OPTIONS,
     DOMAIN,
+    TYPE_CHRISTMAS_TREE,
     TYPE_FOOD,
     TYPE_GARDEN,
     TYPE_GENERAL,
@@ -151,6 +152,9 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         default_general = self.config_entry.options.get(TYPE_GENERAL, True)
         default_hygiene = self.config_entry.options.get(TYPE_HYGIENE, False)
         default_recycling = self.config_entry.options.get(TYPE_RECYCLING, True)
+        default_christmas_tree = self.config_entry.options.get(
+            TYPE_CHRISTMAS_TREE, True
+        )
 
         if user_input is not None:
 
@@ -179,6 +183,10 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                     vol.Optional(
                         TYPE_RECYCLING,
                         default=default_recycling,
+                    ): bool,
+                    vol.Optional(
+                        TYPE_CHRISTMAS_TREE,
+                        default=default_christmas_tree,
                     ): bool,
                 }
             ),
