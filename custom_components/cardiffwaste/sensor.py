@@ -16,6 +16,7 @@ from .const import (
     ATTR_IMAGE_URL,
     DEFAULT_OPTIONS,
     DOMAIN,
+    TYPE_CHRISTMAS_TREE,
     TYPE_RECYCLING,
 )
 from .helpers import redact_uprn
@@ -57,7 +58,7 @@ class CollectionSensor(CoordinatorEntity, SensorEntity):
         self._type = collection_type
         self._name = (
             f"{collection_type.title()} Waste Collection"
-            if collection_type is not TYPE_RECYCLING
+            if collection_type not in [TYPE_RECYCLING, TYPE_CHRISTMAS_TREE]
             else f"{collection_type.title()} Collection"
         )
         self._id = f"cardiffwaste-{coordinator.client.uprn}-{collection_type}"
