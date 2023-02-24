@@ -29,6 +29,7 @@
                 "data": {
                     "garden": "Next garden waste collection",
                     "general": "Next general waste collection",
+                    "glass": "Next glass waste collection",
                     "hygiene": "Next hygiene waste collection",
                     "food": "Next food waste collection",
                     "recycling": "Next recycling collection",

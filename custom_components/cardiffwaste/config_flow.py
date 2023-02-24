@@ -24,6 +24,7 @@ from .const import (
     TYPE_FOOD,
     TYPE_GARDEN,
     TYPE_GENERAL,
+    TYPE_GLASS,
     TYPE_HYGIENE,
     TYPE_RECYCLING,
 )
@@ -150,6 +151,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         default_food = self.config_entry.options.get(TYPE_FOOD, True)
         default_garden = self.config_entry.options.get(TYPE_GARDEN, True)
         default_general = self.config_entry.options.get(TYPE_GENERAL, True)
+        default_glass = self.config_entry.options.get(TYPE_GLASS, False)
         default_hygiene = self.config_entry.options.get(TYPE_HYGIENE, False)
         default_recycling = self.config_entry.options.get(TYPE_RECYCLING, True)
         default_christmas_tree = self.config_entry.options.get(
@@ -175,6 +177,10 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                     vol.Optional(
                         TYPE_GENERAL,
                         default=default_general,
+                    ): bool,
+                    vol.Optional(
+                        TYPE_GLASS,
+                        default=default_glass,
                     ): bool,
                     vol.Optional(
                         TYPE_HYGIENE,
